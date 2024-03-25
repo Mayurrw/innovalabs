@@ -1,13 +1,35 @@
 <template>
+    <v-row align="start">
+        <v-col cols="6" align="left">
+          <v-btn class="back-button ml-8" color="primary" @click="goToHomePage">Go BACK</v-btn>
+        </v-col>
+        <v-col cols="6" align="end">
+          <v-btn class="back-button mr-4" color="secondary" @click="goToSecondAssessment">Second Assessment</v-btn>
+        </v-col>
+      </v-row>
     <h3>Third Assignment</h3>
     <v-sheet class="mx-auto">
-        <v-form @submit.prevent="onFormSubmit">
-            <template v-for="blockInput in formData.blocks" :key="blockInput.token">
-                <label class="block-label" :for="blockInput.token">{{ blockInput.props.title }}</label>
-                <input class="block-input" :id="blockInput.token" :type="blockInput.type" :placeholder="blockInput?.props?.placeholder" :required="!!(blockInput?.props?.required)"/>
-            </template>
-            <button class="mt-2" type="submit" block>Submit</button>
-        </v-form>
+        <v-row class="ml-4">
+            <v-col cols=12>
+                <h5 align="start">{{ "Question:- "+question }}</h5>
+            </v-col>
+            <v-col cols=12>
+                <h5 align="start">Answer:-</h5>
+            </v-col>
+            <v-form @submit.prevent="onFormSubmit" class="ml-4">
+                <div>
+                    <v-row class="d-flex" v-for="blockInput in formData.blocks" :key="blockInput.token">
+                        <v-col cols="8">
+                            <label class="block-label mt-4" :for="blockInput.token">{{ blockInput.props.title }}</label>
+                        </v-col>
+                        <v-col cols="4">
+                            <input class="block-input" :id="blockInput.token" :type="blockInput.type" :placeholder="blockInput?.props?.placeholder" :required="!!(blockInput?.props?.required)"/>
+                        </v-col>
+                    </v-row>
+                </div>
+                <v-btn class="mt-2" type="submit" block>Submit</v-btn>
+            </v-form>
+        </v-row>
   </v-sheet>
 </template>
 
@@ -16,6 +38,7 @@
     name: "ThirdAssessment",
     data () {
         return {
+            question: "Write code to build form and handle this dynamically. When the user press submit button this form needs to be validated before submit. This block can be dynamic JSON. This can be N number of Blocks.",
             formData: {
                 blocks: [
                     {
@@ -36,7 +59,7 @@
                         }
                     },
                     {
-                        token: "PERSONS DOB",
+                        token: "PERSONS_DOB",
                         type: "date",
                         props: {
                             title: "Enter Your DOB",
@@ -54,12 +77,17 @@
             let userName = document.getElementById("PERSON_NAME")
             if (userName && !userName.value){
                 alert("Please Input Name")
-            }
-            if (userAge.checked) {
-                console.log("Please check age")
-            } else {
+            } else if (!userAge) {
                 alert("Please Check if you are not minor")
+            } else {
+                alert("Form submitted successfully")
             }
+        },
+        goToHomePage () {
+            this.$router.push('/')
+        },
+        goToSecondAssessment () {
+            this.$router.push('/SecondAssessment')
         }
     }
  }

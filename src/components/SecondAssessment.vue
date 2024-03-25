@@ -1,12 +1,29 @@
 <template>
-    <h4>Assessment Second</h4>
-    <v-text-field class="search" v-model='search' label="Search" clearable></v-text-field>
-    <v-data-table class="data-table" :search="search" :items="getUsersDataList" :headers="headers">
-
-    </v-data-table>
+    <div class="second-assessment">
+      <v-row>
+        <v-col cols="6" align="left">
+          <v-btn class="back-button ml-8" color="primary" @click="goToHomePage">Go BACK</v-btn>
+        </v-col>
+        <v-col cols="6" align="end">
+          <v-btn class="back-button mr-4" color="secondary" @click="goToThirdAssessment">Third Assessment</v-btn>
+        </v-col>
+      </v-row>
+      <v-row class="ml-4">
+        <v-col cols=12>
+          <h5 align="start">{{ "Question:- "+quetsion }}</h5>
+        </v-col>
+        <v-col cols=12>
+          <h4 align="start">Answer:-</h4>
+        </v-col>
+      </v-row>
+      <h3>Assessment Second</h3>
+      <v-text-field class="search ml-4" v-model='search' label="Search" clearable></v-text-field>
+      <v-data-table class="data-table ml-4" :headers="headers" :search="search" :items="getUsersDataList">
+        
+      </v-data-table>
+    </div>
 </template>
 <script>
-// import { mapState } from 'vuex'
 import { mapMutations } from 'vuex'
 import { mapGetters } from 'vuex'
 
@@ -16,43 +33,49 @@ export default {
   data () {
       return {
         search: '',
+        quetsion: "Need to list total users from an API in a paginated list. The list can be searched and filtered.The user can search and filter the user list with all parameters.Must use Vuex",
         headers: [
             {
-                text: 'ID',
-                value: 'id'
+                title: 'ID',
+                key: 'id'
             },
             {
-                text: 'Name',
-                value: 'name'
+                title: 'Name',
+                key: 'name'
             },
             {
-                text: 'User Name',
-                value: 'username'
+                title: 'User Name',
+                key: 'username'
             },
             {
-                text: 'Email',
-                value: 'email'
+                title: 'Email',
+                key: 'email'
             },
             {
-                text: 'Website',
-                value: 'website'
+                title: 'Address',
+                key: 'address'
             },
             {
-                text: 'Phone',
-                value: 'phone'
+                title: 'Phone',
+                key: 'phone'
+            },
+            {
+                title: 'Website',
+                key: 'website'
+            },
+            {
+                title: 'Company',
+                key: 'company'
             }
         ]
     }
   },
   computed: {
       ...mapGetters([
-        // usersDataList: state => state.usersDataList
         'getUsersDataList'
       ]),
   },
   async mounted () {
-    // this.usersDataList = await this.getUserData()
-    // console.log(this.usersDataList, 'Mayur')
     this.setData(await this.getUserData())
   },
   methods: {
@@ -63,8 +86,12 @@ export default {
       const response = await fetch('https://jsonplaceholder.typicode.com/users')
       const data = await response.json()
       return data
-    //   .then(response => this.usersDataList = response.json())
-    //   .then(json => console.log(json))
+    },
+    goToHomePage () {
+      this.$router.push('/')
+    },
+    goToThirdAssessment () {
+      this.$router.push('/ThirdAssessment')
     }
   }
 }
@@ -79,5 +106,13 @@ export default {
   margin-left: 2px;
     width: 99%;
     border: 1px solid green;
+}
+.back-button {
+  justify-content: end;
+}
+</style>
+<style>
+.second-assessment .v-data-table-header__content {
+  display: ruby-text;
 }
 </style>
