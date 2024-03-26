@@ -24,7 +24,6 @@ const store = createStore({
       },
     getters: {
         getUsersDataList (state) {
-            console.log(state, 'hhh')
             return state.usersDataList
         }
     }

@@ -38,6 +38,7 @@
     name: "ThirdAssessment",
     data () {
         return {
+            isMinor: false,
             question: "Write code to build form and handle this dynamically. When the user press submit button this form needs to be validated before submit. This block can be dynamic JSON. This can be N number of Blocks.",
             formData: {
                 blocks: [
@@ -72,13 +73,26 @@
         }
     },
     methods: {
+        checkAge() {
+            const userAge = document.getElementById("PERSONS_DOB")
+            const today = new Date();
+            const birthDate = new Date(userAge.value);
+            const age = today.getFullYear() - birthDate.getFullYear();
+            if (age < 18) {
+                document.getElementById("IS_PERSON_MINOR").checked = true
+            } else {
+                document.getElementById("IS_PERSON_MINOR").checked = false
+            }
+        },
         onFormSubmit () {
-            let userAge = document.getElementById("IS_PERSON_MINOR").checked
             let userName = document.getElementById("PERSON_NAME")
+            let userDob = document.getElementById("PERSONS_DOB")
             if (userName && !userName.value){
                 alert("Please Input Name")
-            } else if (!userAge) {
-                alert("Please Check if you are not minor")
+            } else if (!userDob.value) {
+                alert("Please Input DOB")
+            } else if (userDob.value) {
+                this.checkAge()
             } else {
                 alert("Form submitted successfully")
             }
